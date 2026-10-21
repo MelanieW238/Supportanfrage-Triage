@@ -1,0 +1,64 @@
+> supportanfrage-triage@1.0.0 test
+> node --test "test/*.test.js"
+✔ Eingabe 1 Normalfall: Zugang, mittel, wörtliches Zitat
+✔ Eingabe 2 Leerfall: abgelehnt, kein Ergebnis, kein Absturz
+✔ Eingabe 3 Längengrenze: über 5.000 abgelehnt, genau 5.000 nicht
+✔ Eingabe 4a Angriff: Anweisung wird nicht ausgeführt und nichts erfunden
+✖ Regression B1, Eingabe 4b: zitierter Satz löst keinen Angriffshinweis aus
+⚠ Eingabe 4b Gegenfall: Kategorie Technisches Problem # Offener Befund B2: "Vorschau" und "abgeschnitten" fehlen in der Wortliste, Ergebnis bleibt unklar
+✔ Eingabe 4b Gegenfall: Anweisung in Anführungszeichen wird trotzdem nie ausgeführt
+✔ Eingabe 4b Gegenfall: wird nicht abgelehnt und nicht hoch
+✔ Eingabe 5 Dateiname: unklar, Rückfrage, nichts erfunden
+✔ Regel Zitat wörtlich: bei jeder nicht abgelehnten Eingabe ein Teilstring der Eingabe
+✔ Regel erlaubte Werte: Kategorie und Dringlichkeit nur aus der Wertemenge
+✔ Kernpfad 1: Zugang, mittel
+✔ Kernpfad 2: Abrechnung, mittel
+✔ Kernpfad 3: Technisches Problem, hoch bei kompletter Blockade
+✔ reine Frage ist niedrig
+✔ Sonstiges: Feedback ist niedrig
+✔ hoch bei Sicherheitsrisiko
+✔ hoch bei unmittelbar drohendem finanziellen Schaden
+✔ Verneinung löst keinen Alarm aus
+✔ Dringlichkeit hoch nicht allein wegen Wörtern wie "dringend"
+✔ Anweisung im Text wird nicht befolgt und als Hinweis gezeigt
+✔ Anfrage nur aus Anweisung ist unklar
+✔ Unklar ohne erkennbares Anliegen
+✔ Unklar bei Gleichstand zweier Kategorien, mit Kandidaten
+✔ Unklar und hoch zugleich bei Alarm ohne Kategorie
+✔ Leere Eingabe wird abgelehnt, ohne Ergebnis
+✔ Über 5.000 Zeichen wird abgelehnt, genau 5.000 nicht
+✔ Zitat bleibt wörtlich, auch bei sehr langem Satz
+✔ Zitat ist bei allen Beispielen ein wörtlicher Teilstring
+ℹ tests 29
+ℹ suites 0
+ℹ pass 27
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 1
+ℹ duration_ms 115.881042
+✖ failing tests:
+test at test/pruefung-m532.test.js:55:1
+✖ Regression B1, Eingabe 4b: zitierter Satz löst keinen Angriffshinweis aus
+  AssertionError [ERR_ASSERTION]: falscher Angriffshinweis
+  1 !== 0
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+test at test/pruefung-m532.test.js:60:1
+⚠ Eingabe 4b Gegenfall: Kategorie Technisches Problem # Offener Befund B2: "Vorschau" und "abgeschnitten" fehlen in der Wortliste, Ergebnis bleibt unklar
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  + 'unklar'
+  - 'Technisches Problem'
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'unklar',
+    expected: 'Technisches Problem',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
