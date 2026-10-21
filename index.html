@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supportanfrage-Triage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Supportanfrage-Triage</h1>
+      <p class="lead">Anfrage einfügen, auf „Anfrage einordnen“ klicken, fertig. Die Auswertung läuft lokal im Browser, es wird nichts gesendet.</p>
+    </header>
+
+    <form id="form" novalidate>
+      <label for="input">Supportanfrage</label>
+      <textarea id="input" rows="8" placeholder="Text der Supportanfrage hier einfügen …" autofocus></textarea>
+      <div class="meta">
+        <span id="counter" aria-live="off">0 / 5.000 Zeichen</span>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="submit" class="primary">Anfrage einordnen</button>
+        <button type="button" id="clear" class="secondary">Zurücksetzen</button>
+      </div>
+
+      <div class="examples">
+        <span>Beispiele:</span>
+        <button type="button" class="chip" data-example="0">Login</button>
+        <button type="button" class="chip" data-example="1">Abbuchung</button>
+        <button type="button" class="chip" data-example="2">Totalausfall</button>
+        <button type="button" class="chip" data-example="3">Unklar</button>
+      </div>
+    </form>
+
+    <div id="status" role="status" aria-live="polite" data-state="bereit">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="status-label">Bereit</span>
+      <span id="status-text">Supportanfrage einfügen und einordnen.</span>
+    </div>
+
+    <section id="result" hidden aria-labelledby="result-title">
+      <h2 id="result-title" class="sr-only">Ergebnis</h2>
+      <p id="unclear-banner" class="banner" hidden></p>
+      <dl>
+        <div>
+          <dt>Kategorie</dt>
+          <dd id="r-category"></dd>
+        </div>
+        <div>
+          <dt>Dringlichkeit</dt>
+          <dd><span id="r-urgency" class="badge"></span> <span id="r-urgency-reason" class="hint"></span></dd>
+        </div>
+        <div>
+          <dt>Nächster Schritt</dt>
+          <dd id="r-next"></dd>
+        </div>
+        <div>
+          <dt>Beleg-Zitat aus der Anfrage</dt>
+          <dd><blockquote id="r-quote"></blockquote></dd>
+        </div>
+      </dl>
+      <p id="r-signals" class="hint" hidden></p>
+      <ul id="r-notes" class="notes" hidden></ul>
+    </section>
+
+    <details class="rules">
+      <summary>So wird eingeordnet</summary>
+      <p>Schlüsselwörter bestimmen die Kategorie. Bei Gleichstand oder zu wenig Hinweisen steht das Ergebnis auf „unklar“. Dringlichkeit „hoch“ gibt es nur bei kompletter Blockade, Sicherheitsrisiko oder unmittelbar drohendem finanziellen Schaden. Anweisungen im Text („Ignoriere alle Regeln“) gelten als Inhalt und werden nicht befolgt. Maximal 5.000 Zeichen.</p>
+    </details>
+  </main>
+
+  <script src="triage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "supportanfrage-triage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Regelbasierte Triage von Supportanfragen, lokal im Browser",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
+}
