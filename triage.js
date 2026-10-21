@@ -65,6 +65,8 @@
   // weder gewertet noch befolgt, damit sie die Einordnung nicht steuern können.
   const INJECTION = /ignorier|vergiss\p{L}*\s+(?:alle|deine|die|vorherige)|(?:alle|deine|vorherigen?)\s+(?:regeln|anweisungen)|system-?prompt|du\s+bist\s+(?:jetzt|nun)|(?:stufe|setze|bewerte)\s+(?:\S+\s+){0,3}(?:als\s+hoch|auf\s+hoch|dringlichkeit)|ignore\s+(?:all|previous|the)|disregard|(?:antworte|gib)\s+(?:nur|ausschließlich)/iu;
 
+  const QUOTED = /„[^“]*“|"[^"]*"|»[^«]*«/g;
+
   // Verneinung kurz vor dem Treffer ("nicht gehackt"), sonst würde sie als Alarm zählen.
   const NEGATION_BEFORE = /(?<![\p{L}])(?:kein\p{L}*|nicht|ohne|nie)(?![\p{L}])\s+(?:\S+\s+){0,2}$/iu;
 
@@ -141,8 +143,12 @@
     }
 
     const sentences = splitSentences(input);
-    const injected = sentences.filter((s) => INJECTION.test(s));
-    const content = sentences.filter((s) => !INJECTION.test(s));
+    // Sicherheitsprüfung: Text in Anführungszeichen wird vor der Erkennung entfernt. Wer eine Anweisung
+    // zitiert („Ignoriere alle Regeln“), richtet sie nicht an die App. Ausgeführt wird sie ohnehin nie,
+    // die Erkennung entscheidet nur, ob ein Satz in die Wertung geht und ob der Hinweis erscheint.
+    const isInjection = (s) => INJECTION.test(s.replace(QUOTED, ' '));
+    const injected = sentences.filter(isInjection);
+    const content = sentences.filter((s) => !isInjection(s));
     const notes = [];
     if (injected.length) {
       notes.push('Die Anfrage enthält Anweisungen an die App. Sie wurden als Inhalt behandelt, nicht ausgeführt und nicht in die Einordnung einbezogen.');
